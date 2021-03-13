@@ -2,9 +2,9 @@
 #include <stdint.h>
 #include <stdio.h>
 
-static uint8_t getbit(uint8_t n, uint8_t i) { return ((n >> i) & 1); }
+static uint8_t getbit(uint32_t n, uint8_t i) { return ((n >> i) & 1); }
 
-int bitpat_match_s(int nbits, uint32_t t, const char* s)
+int bitpat_match(int nbits, uint32_t t, const char* s)
 {
     for (int i = 0, bi = 0; bi < nbits; i++) {
         switch (s[i]) {

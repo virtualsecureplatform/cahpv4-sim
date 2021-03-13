@@ -5,20 +5,13 @@
 
 #include "cpu.h"
 
-typedef void (*inst24_handler)(struct cpu *c, uint32_t inst);
-typedef void (*inst16_handler)(struct cpu *c, uint16_t inst);
+typedef void (*inst_handler)(struct cpu *c, uint32_t inst);
 
-struct inst24_info {
+struct inst_info {
     char *bit_pattern;
-    inst24_handler func;
+    inst_handler func;
 };
 
-struct inst16_info {
-    char *bit_pattern;
-    inst16_handler func;
-};
-
-extern const struct inst24_info inst_list_24[];
-extern const struct inst16_info inst_list_16[];
+extern const struct inst_info inst_list[];
 
 #endif

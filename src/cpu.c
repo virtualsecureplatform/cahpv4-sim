@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -48,35 +49,23 @@ uint16_t mem_read_w(struct cpu *c, uint16_t addr)
     return c->data_ram[addr] + (c->data_ram[addr + 1] << 8);
 }
 
-uint16_t rom_read_16(struct cpu *c)
+uint32_t rom_read_32(struct cpu *c)
 {
-    assert(c->pc < INST_ROM_SIZE - 1 && "ROM read from invalid address!");
-    return c->inst_rom[c->pc] + (c->inst_rom[c->pc + 1] << 8);
-}
-
-uint32_t rom_read_24(struct cpu *c)
-{
-    assert(c->pc < INST_ROM_SIZE - 1 && "ROM read from invalid address!");
+    assert(c->pc < INST_ROM_SIZE - 3 && "ROM read from invalid address!");
     uint32_t val = 0;
-    val |= c->inst_rom[c->pc];
+    val |= (c->inst_rom[c->pc + 0] << 0);
     val |= (c->inst_rom[c->pc + 1] << 8);
     val |= (c->inst_rom[c->pc + 2] << 16);
+    val |= (c->inst_rom[c->pc + 3] << 24);
     return val;
 }
 
 void cpu_tick(struct cpu *c)
 {
-    uint32_t inst24 = rom_read_24(c);
-    for (int i = 0; inst_list_24[i].bit_pattern != NULL; i++) {
-        if (!bitpat_match_s(24, inst24, inst_list_24[i].bit_pattern)) continue;
-        inst_list_24[i].func(c, inst24);
-        return;
-    }
-
-    uint16_t inst16 = rom_read_16(c);
-    for (int i = 0; inst_list_16[i].bit_pattern != NULL; i++) {
-        if (!bitpat_match_s(16, inst16, inst_list_16[i].bit_pattern)) continue;
-        inst_list_16[i].func(c, inst16);
+    uint32_t inst = rom_read_32(c);
+    for (int i = 0; inst_list[i].bit_pattern != NULL; i++) {
+        if (!bitpat_match(32, inst, inst_list[i].bit_pattern)) continue;
+        inst_list[i].func(c, inst);
         return;
     }
 
@@ -85,7 +74,7 @@ void cpu_tick(struct cpu *c)
 
 void cpu_init(struct cpu *c)
 {
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 32; i++) {
         c->reg[i] = 0;
     }
     for (int i = 0; i < INST_ROM_SIZE; i++) {
@@ -147,7 +136,7 @@ void cpu_init_from_initconf(struct cpu *c, const char *text)
     while (tp != NULL) {
         if (strcmp(tp, "reg") == 0) {
             tp = strtok(NULL, ":");
-            READ_NUMS_FROM_INITCONF(16, c->reg);
+            READ_NUMS_FROM_INITCONF(32, c->reg);
         }
         else if (strcmp(tp, "rom") == 0) {
             tp = strtok(NULL, ":");

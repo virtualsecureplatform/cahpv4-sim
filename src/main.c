@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     }
 
     for (uint64_t i = 0; i < ncycles; i++) {
-        uint16_t inst16 = rom_read_16(&cpu);
+        uint16_t inst = rom_read_32(&cpu);
 
         log_printf("%5" PRIx64 ": ", i);
         cpu_tick(&cpu);
@@ -138,10 +138,10 @@ int main(int argc, char *argv[])
             fprintf(stderr, "\n");
         }
 
-        if (inst16 == 0x000e /* JS 0*/) break;
+        if (inst == 0x02f4 /* JAL x0, 0*/) break;
     }
 
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 32; i++) {
         uint16_t val = reg_read(&cpu, i);
         printf("x%d=%d\t", i, val);
     }

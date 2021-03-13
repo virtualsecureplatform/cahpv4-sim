@@ -3,10 +3,10 @@
 
 #include <stdint.h>
 
-#define INST_ROM_SIZE 512
-#define DATA_RAM_SIZE 512
+#define INST_ROM_SIZE 1024
+#define DATA_RAM_SIZE 1024
 struct cpu {
-    uint16_t reg[16];
+    uint16_t reg[32];
     uint16_t pc;
     uint8_t inst_rom[INST_ROM_SIZE];
     uint8_t data_ram[DATA_RAM_SIZE];
@@ -24,8 +24,7 @@ void mem_write_w(struct cpu *c, uint16_t addr, uint16_t data);
 uint8_t mem_read_b(struct cpu *c, uint16_t addr);
 uint16_t mem_read_w(struct cpu *c, uint16_t addr);
 
-uint16_t rom_read_16(struct cpu *c);
-uint32_t rom_read_24(struct cpu *c);
+uint32_t rom_read_32(struct cpu *c);
 
 void cpu_init(struct cpu *c);
 void cpu_init_from_initconf(struct cpu *c, const char *text);

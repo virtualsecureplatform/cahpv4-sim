@@ -8,8 +8,7 @@ add_executable(cahp-sim
     elf_parser.h
     inst.c
     inst.h
-    inst16.inc
-    inst24.inc
+    inst.inc
     log.c
     log.h
     main.c

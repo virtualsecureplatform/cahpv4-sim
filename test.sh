@@ -19,409 +19,279 @@ testentry() {
     [ "$?" -eq 0 ] || failwith "$1" "$2" "$3" "$res"
 }
 
-##### 24bit R-Instruction #####
+### lb x2, -500(x1)
+testentry 1 \
+    ":reg: 0, 1F4 \
+     :ram: FA \
+     :rom: 89, 0F, 82, C1" \
+    "x2=65530"
 
-### lw x0, -500(x1)
+### lbu x2, -500(x1)
+testentry 1 \
+    ":reg: 0, 1F4 \
+     :ram: FA \
+     :rom: 89, 0A, 82, C1" \
+    "x2=250"
+
+### lw x2, -500(x1)
 testentry 1 \
     ":reg: 0, 1F4 \
      :ram: 2A, 00 \
-     :rom: 95, 10, 0C" \
-    "x0=42"
-
-### lb x0, -500(x1)
-testentry 1 \
-    ":reg: 0, 1F4 \
-     :ram: FA \
-     :rom: A5, 10, 0C" \
-    "x0=65530"
-
-### lbu x0, -500(x1)
-testentry 1 \
-    ":reg: 0, 1F4 \
-     :ram: FA \
-     :rom: 85, 10, 0C" \
-    "x0=250"
-
-### sw x0, -500(x1)
-### lw x2, -500(x1)
-testentry 2 \
-    ":reg: 112A, 1F4, 0  \
-     :rom: 9D, 10, 0C, 95, 12, 0C" \
-    "x2=4394"
-
-### sb x0, -500(x1)
-### lbu x2, -500(x1)
-testentry 2 \
-    ":reg: 112A, 1F4, 0  \
-     :rom: 8D, 10, 0C, 85, 12, 0C" \
+     :rom: 09, 0A, 82, C1" \
     "x2=42"
 
-### li x0, -500
-testentry 1 \
-    ":reg: 01  \
-     :rom: B5, 00, 0C" \
-    "x0=65036"
-
-### add x0, x1, x2
-testentry 1 \
-    ":reg: 01, 02, 03  \
-     :rom: 01, 10, 02" \
-    "x0=5"
-
-### sub x0, x1, x2
-testentry 1 \
-    ":reg: 01, 04, 02  \
-     :rom: 09, 10, 02" \
-    "x0=2"
-
-### and x0, x1, x2
-testentry 1 \
-    ":reg: 01, 05, 03  \
-     :rom: 11, 10, 02" \
-    "x0=1"
-
-### xor x0, x1, x2
-testentry 1 \
-    ":reg: 01, 04, 05  \
-     :rom: 19, 10, 02" \
-    "x0=1"
-
-### or x0, x1, x2
-testentry 1 \
-    ":reg: 01, 05, 03  \
-     :rom: 21, 10, 02" \
-    "x0=7"
-
-### lsl x0, x1, x2
-testentry 1 \
-    ":reg: 01, 05, 03  \
-     :rom: 29, 10, 02" \
-    "x0=40"
-
-### lsr x0, x1, x2
-testentry 1 \
-    ":reg: 01, 15, 03  \
-     :rom: 31, 10, 02" \
-    "x0=2"
-
-### asr x0, x1, x2
-testentry 1 \
-    ":reg: 01, FFF0, 04  \
-     :rom: 39, 10, 02" \
-    "x0=65535"
-
-
-##### 24bit I-Instruction #####
-
-### addi x0, x1, -10
-testentry 1 \
-    ":reg: 01, 07  \
-     :rom: C3, 10, F6" \
-    "x0=65533"
-
-### addi x0, x1, 10
-testentry 1 \
-    ":reg: 01, 07  \
-     :rom: 03, 10, 0A" \
-    "x0=17"
-
-### andi x0, x1, 0b1100001010
-testentry 1 \
-    ":reg: 01, 2C8  \
-     :rom: D3, 10, 0A" \
-    "x0=520"
-
-### xori x0, x1, 0b1100001010
-testentry 1 \
-    ":reg: 01, 2C8  \
-     :rom: DB, 10, 0A" \
-    "x0=64962"
-
-### ori x0, x1, 0b1100001010
-testentry 1 \
-    ":reg: 01, 2C8  \
-     :rom: e3, 10, 0A" \
-    "x0=65482"
-
-### lsli x0, x1, 3
-testentry 1 \
-    ":reg: 01, 05  \
-     :rom: 2B, 10, 03" \
-    "x0=40"
-
-### lsri x0, x1, 3
-testentry 1 \
-    ":reg: 01, 15  \
-     :rom: 33, 10, 03" \
-    "x0=2"
-
-### asri x0, x1, 4
-testentry 1 \
-    ":reg: 01, FFF0  \
-     :rom: 3B, 10, 04" \
-    "x0=65535"
-
-##### 24bit J-Instruction #####
-
-### beq x0, x1, 16
-testentry 1 \
-    ":reg: 01, FFF0  \
-     :rom: 0F, 01, 10" \
-    "pc=3"
-
-### beq x0, x1, 16
-testentry 1 \
-    ":reg: 01, 01  \
-     :rom: 0F, 01, 10" \
-    "pc=16"
-
-### bne x0, x1, 16
-testentry 1 \
-    ":reg: 01, FFF0  \
-     :rom: 2F, 01, 10" \
-    "pc=16"
-
-### bne x0, x1, 16
-testentry 1 \
-    ":reg: 01, 01  \
-     :rom: 2F, 01, 10" \
-    "pc=3"
-
-### blt x0, x1, 16
-testentry 1 \
-    ":reg: FFF0, 10 \
-     :rom: 37, 01, 10" \
-    "pc=16"
-
-### blt x0, x1, 16
-testentry 1 \
-    ":reg: 10, FFF0 \
-     :rom: 37, 01, 10" \
-    "pc=3"
-
-### blt x0, x1, 16
-testentry 1 \
-    ":reg: 01, 01  \
-     :rom: 37, 01, 10" \
-    "pc=3"
-
-### bltu x0, x1, 16
-testentry 1 \
-    ":reg: FFF0, 10 \
-     :rom: 17, 01, 10" \
-    "pc=3"
-
-### bltu x0, x1, 16
-testentry 1 \
-    ":reg: 10, FFF0 \
-     :rom: 17, 01, 10" \
-    "pc=16"
-
-### bltu x0, x1, 16
-testentry 1 \
-    ":reg: 01, 01  \
-     :rom: 17, 01, 10" \
-    "pc=3"
-
-### ble x0, x1, 16
-testentry 1 \
-    ":reg: FFF0, 10 \
-     :rom: 3F, 01, 10" \
-    "pc=16"
-
-### ble x0, x1, 16
-testentry 1 \
-    ":reg: 10, FFF0 \
-     :rom: 3F, 01, 10" \
-    "pc=3"
-
-### ble x0, x1, 16
-testentry 1 \
-    ":reg: 01, 01  \
-     :rom: 3F, 01, 10" \
-    "pc=16"
-
-### bleu x0, x1, 16
-testentry 1 \
-    ":reg: FFF0, 10 \
-     :rom: 1F, 01, 10" \
-    "pc=3"
-
-### bleu x0, x1, 16
-testentry 1 \
-    ":reg: 10, FFF0 \
-     :rom: 1F, 01, 10" \
-    "pc=16"
-
-### bleu x0, x1, 16
-testentry 1 \
-    ":reg: 01, 01  \
-     :rom: 1F, 01, 10" \
-    "pc=16"
-
-##### 16bit M-Instruction #####
-
-### lwsp x0, 32(sp)
-testentry 1 \
-    ":reg: 0, 0 \
-     :ram: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2A,0 \
-     :rom: 54, 00" \
-    "x0=42.+pc=2"
-
-### swsp x0, 64(sp)
-### lwsp x2, 64(sp)
+### sb x3, -500(x1)
+### lbu x2, -500(x1)
 testentry 2 \
-    ":reg: 2A, 0, 0 \
-     :rom: 9C, 00, 94, 02" \
-    "x2=42.+pc=4"
+    ":reg: 0, 1F4, 0, 112A \
+     :rom: 82, 0A, 6C, C0, 89, 0A, 82, C1" \
+    "x2=42"
 
-### lsi x0, -32
-testentry 1 \
-    ":reg: 0, 0 \
-     :rom: B4, 00" \
-    "x0=65504.+pc=2"
-
-### lui x0, 32
-testentry 1 \
-    ":reg: FFFF \
-     :rom: 84, 00" \
-    "x0=32768.+pc=2"
-
-### li x0, -1
-### lui x0, 63
+### sw x3, -500(x1)
+### lw x2, -500(x1)
 testentry 2 \
-    ":reg: 0, 0 \
-     :rom: F5, 00, FF, C4, F0" \
-    "x0=64512.+pc=5"
+    ":reg: 0, 1F4, 0, 112A  \
+     :rom: 02, 0A, 6C, C0, 09, 0A, 82, C1" \
+    "x2=4394"
 
-### lui x0, %hi(0xFDFF)
-### addi x0, x0, %lo(0xFDFF)
-testentry 2 \
-    ":reg: 0, 0 \
-     :rom: C4, F0, 43, 00, FF" \
-    "x0=65023.+pc=5"
+##############################
 
-##### 16bit R-Instruction #####
-
-### mov x0, x1
+### add x1, x2, x3
 testentry 1 \
-    ":reg: 01, 02  \
-     :rom: C0, 10" \
-    "x0=2"
+    ":reg: 00, 00, 02, 03  \
+     :rom: 08, 10, 61, 00" \
+    "x1=5"
 
-### add2 x0, x1
+### add x16, x17, x18
 testentry 1 \
-    ":reg: 01, 02  \
-     :rom: 80, 10" \
-    "x0=3"
+    ":reg: 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 02, 03  \
+     :rom: 08, 88, 50, 02" \
+    "x16=5"
 
-### sub2 x0, x1
+### sub x1, x2, x3
 testentry 1 \
-    ":reg: 03, 02  \
-     :rom: 88, 10" \
-    "x0=1"
+    ":reg: 00, 00, 02, 03  \
+     :rom: 18, 10, 61, 00" \
+    "x1=65535"
 
-### and2 x0, x1
+### xor x1, x2, x3
 testentry 1 \
-    ":reg: 01, 03  \
-     :rom: 90, 10" \
-    "x0=1"
+    ":reg: 00, 00, 04, 05  \
+     :rom: 28, 10, 61, 00" \
+    "x1=1"
 
-### xor2 x0, x1
+### or x1, x2, x3
 testentry 1 \
-    ":reg: 01, 03  \
-     :rom: 98, 10" \
-    "x0=2"
+    ":reg: 00, 00, 05, 03  \
+     :rom: 38, 10, 61, 00" \
+    "x1=7"
 
-### or2 x0, x1
+### and x1, x2, x3
 testentry 1 \
-    ":reg: 04, 03  \
-     :rom: A0, 10" \
-    "x0=7"
+    ":reg: 00, 00, 05, 03  \
+     :rom: 48, 10, 61, 00" \
+    "x1=1"
 
-### or2 x0, x1
+### sll x1, x2, x3
 testentry 1 \
-    ":reg: 04, 03  \
-     :rom: A0, 10" \
-    "x0=7"
+    ":reg: 00, 00, 05, 03  \
+     :rom: 98, 10, 61, 00" \
+    "x1=40"
 
-### lsl2 x0, x1
+### srl x1, x2, x3
 testentry 1 \
-    ":reg: 13, 03  \
-     :rom: A8, 10" \
-    "x0=152"
+    ":reg: 00, 00, 15, 03  \
+     :rom: A8, 10, 61, 00" \
+    "x1=2"
 
-### lsr2 x0, x1
+### sra x1, x2, x3
 testentry 1 \
-    ":reg: 13, 03  \
-     :rom: B0, 10" \
-    "x0=2"
+    ":reg: 00, 00, FFF0, 04  \
+     :rom: C8, 10, 61, 00" \
+    "x1=65535"
 
-### asr2 x0, x1
+### slt x1, x2, x3
 testentry 1 \
-    ":reg: fff0, 03  \
-     :rom: B8, 10" \
-    "x0=65534"
+    ":reg: 00, 00, FFF0, 04  \
+     :rom: 08, 15, 61, 00" \
+    "x1=1"
 
-### lsli2 x0, 3
+### sltu x1, x2, x3
 testentry 1 \
-    ":reg: 05  \
-     :rom: 2A, 30" \
-    "x0=40"
+    ":reg: 00, 00, FFF0, 04  \
+     :rom: 08, 11, 61, 00" \
+    "x1=0"
 
-### lsri2 x0, 3
-testentry 1 \
-    ":reg: 15  \
-     :rom: 32, 30" \
-    "x0=2"
+##############################
 
-### asri2 x0, 3
-testentry 1 \
-    ":reg: fff0  \
-     :rom: 3A, 30" \
-    "x0=65534"
+# FIXME: mul, div, rem
 
-### addi2 x0, -32
-testentry 1 \
-    ":reg: 10, 03  \
-     :rom: 82, 00" \
-    "x0=65520"
+##############################
 
-### andi2 x0, 26
+### addi x1, x2, -5
 testentry 1 \
-    ":reg: 13  \
-     :rom: 52, A0" \
-    "x0=18"
+    ":reg: 00, 00, 10 \
+     :rom: 08, 12, 61, FF" \
+    "x1=11"
 
-### jalr x1
+### xori x1, x2, 5
 testentry 1 \
-    ":reg: 00, 10  \
-     :rom: 16, 01" \
-    "x0=2.+pc=16"
+    ":reg: 00, 00, 03 \
+     :rom: 28, 12, A1, 00" \
+    "x1=6"
 
-### jr x1
+### ori x1, x2, 5
 testentry 1 \
-    ":reg: 00, 10  \
-     :rom: 06, 01" \
+    ":reg: 00, 00, 03 \
+     :rom: 38, 12, A1, 00" \
+    "x1=7"
+
+### andi x1, x2, 5
+testentry 1 \
+    ":reg: 00, 00, 03 \
+     :rom: 48, 12, A1, 00" \
+    "x1=1"
+
+### slli x1, x2, 9
+testentry 1 \
+    ":reg: 00, 00, 05 \
+     :rom: 98, 12, 21, 01" \
+    "x1=2560"
+
+### srli x1, x2, 9
+testentry 1 \
+    ":reg: 00, 00, FA00 \
+     :rom: A8, 12, 21, 01" \
+    "x1=125"
+
+### srai x1, x2, 9
+testentry 1 \
+    ":reg: 00, 00, FA00 \
+     :rom: C8, 12, 21, 01" \
+    "x1=65533"
+
+### slti x1, x2, -2
+testentry 1 \
+    ":reg: 00, 00, FFFF \
+     :rom: 08, 17, C1, FF" \
+    "x1=0"
+
+# FIXME: sltiu
+
+### li x1, -500
+testentry 1 \
+    ":reg: 00, 01  \
+     :rom: 08, FE, 81, C1" \
+    "x1=65036"
+
+##############################
+
+### beq x1, x2, 16
+testentry 1 \
+    ":reg: 00, 01, FFF0  \
+     :rom: 14, 0A, 50, 00" \
+    "pc=4"
+
+### beq x1, x2, 16
+testentry 1 \
+    ":reg: 00, 01, 01  \
+     :rom: 14, 0A, 50, 00" \
     "pc=16"
 
-### nop
-### js 8
-testentry 2 \
-    ":reg: 00, 10  \
-     :rom: 00, 00, 0E, 01" \
-    "pc=10"
-
-### nop
-### jsal 8
-testentry 2 \
-    ":reg: 00, 10  \
-     :rom: 00, 00, 1E, 01" \
-    "x0=4.+pc=10"
-
-### nop
+### bne x1, x2, 16
 testentry 1 \
-    ":rom: 00, 00" \
-    "pc=2"
+    ":reg: 00, 01, FFF0  \
+     :rom: 04, 0A, 50, 00" \
+    "pc=16"
+
+### bne x1, x2, 16
+testentry 1 \
+    ":reg: 00, 01, 01  \
+     :rom: 04, 0A, 50, 00" \
+    "pc=4"
+
+### blt x1, x2, 16
+testentry 1 \
+    ":reg: 00, FFF0, 10 \
+     :rom: 44, 0E, 50, 00" \
+    "pc=16"
+
+### blt x1, x2, 16
+testentry 1 \
+    ":reg: 00, 10, FFF0 \
+     :rom: 44, 0E, 50, 00" \
+    "pc=4"
+
+### blt x1, x2, 16
+testentry 1 \
+    ":reg: 00, 01, 01  \
+     :rom: 44, 0E, 50, 00" \
+    "pc=4"
+
+### bge x1, x2, 16
+testentry 1 \
+    ":reg: 00, FFF0, 10 \
+     :rom: 34, 0E, 50, 00" \
+    "pc=4"
+
+### bge x1, x2, 16
+testentry 1 \
+    ":reg: 00, 10, FFF0 \
+     :rom: 34, 0E, 50, 00" \
+    "pc=16"
+
+### bge x1, x2, 16
+testentry 1 \
+    ":reg: 00, 01, 01  \
+     :rom: 34, 0E, 50, 00" \
+    "pc=16"
+
+### bltu x1, x2, 16
+testentry 1 \
+    ":reg: 00, FFF0, 10 \
+     :rom: 44, 0A, 50, 00" \
+    "pc=4"
+
+### bltu x1, x2, 16
+testentry 1 \
+    ":reg: 00, 10, FFF0 \
+     :rom: 44, 0A, 50, 00" \
+    "pc=16"
+
+### bltu x1, x2, 16
+testentry 1 \
+    ":reg: 00, 01, 01  \
+     :rom: 44, 0A, 50, 00" \
+    "pc=4"
+
+### bgeu x1, x2, 16
+testentry 1 \
+    ":reg: 00, FFF0, 10 \
+     :rom: 34, 0A, 50, 00" \
+    "pc=16"
+
+### bgeu x1, x2, 16
+testentry 1 \
+    ":reg: 00, 10, FFF0 \
+     :rom: 34, 0A, 50, 00" \
+    "pc=4"
+
+### bgeu x1, x2, 16
+testentry 1 \
+    ":reg: 00, 01, 01  \
+     :rom: 34, 0A, 50, 00" \
+    "pc=16"
+
+### jal x1, 60000
+testentry 1 \
+    ":reg: 00 00 \
+     :rom: FC, D6, 01, CC" \
+    "x1=4.+pc=60000"
+
+### jalr x1, x2, -500
+testentry 1 \
+    ":reg: 00, 00, EC54 \
+     :rom: FC, 13, 81, C1" \
+    "x1=4.+pc=60000"
 
 echo "ok"
