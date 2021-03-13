@@ -2,6 +2,17 @@
 
 A functional simulator for CAHPv4
 
+## Build and Test
+
+```sh
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+$ cd src
+$ ../../test.sh
+```
+
 ## Google spreadsheet to bit pattern
 
 ```shell
