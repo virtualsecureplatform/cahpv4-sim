@@ -113,7 +113,7 @@ testentry 1 \
 ### slt x1, x2, x3
 testentry 1 \
     ":reg: 00, 00, FFF0, 04  \
-     :rom: 08, 15, 61, 00" \
+     :rom: 18, 15, 61, 00" \
     "x1=1"
 
 ### sltu x1, x2, x3
@@ -173,7 +173,7 @@ testentry 1 \
 ### slti x1, x2, -2
 testentry 1 \
     ":reg: 00, 00, FFFF \
-     :rom: 08, 17, C1, FF" \
+     :rom: 18, 17, C1, FF" \
     "x1=0"
 
 # FIXME: sltiu
@@ -181,7 +181,7 @@ testentry 1 \
 ### li x1, -500
 testentry 1 \
     ":reg: 00, 01  \
-     :rom: 08, FE, 81, C1" \
+     :rom: 78, FE, 81, C1" \
     "x1=65036"
 
 ##############################

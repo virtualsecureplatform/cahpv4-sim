@@ -273,8 +273,8 @@ const struct inst_info inst_list[] = {
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x000_1001_1000", inst_sll},   // SLL
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x000_1010_1000", inst_srl},   // SRL
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x000_1100_1000", inst_sra},   // SRA
-    {"xxxx_xxxx_xxxx_xxxx_xxxx_x101_0xxx_1000", inst_slt},   // SLT
-    {"xxxx_xxxx_xxxx_xxxx_xxxx_x001_0xxx_1000", inst_sltu},  // SLTU
+    {"xxxx_xxxx_xxxx_xxxx_xxxx_x101_0001_1000", inst_slt},   // SLT
+    {"xxxx_xxxx_xxxx_xxxx_xxxx_x001_0000_1000", inst_sltu},  // SLTU
 
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x001_1000_1000", inst_mul},     // MUL
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x101_1001_1000", inst_mulh},    // MULH
@@ -292,9 +292,9 @@ const struct inst_info inst_list[] = {
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x010_1001_1000", inst_slli},   // SLLI
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x010_1010_1000", inst_srli},   // SRLI
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x010_1100_1000", inst_srai},   // SRAI
-    {"xxxx_xxxx_xxxx_xxxx_xxxx_x111_0xxx_1000", inst_slti},   // SLTI
+    {"xxxx_xxxx_xxxx_xxxx_xxxx_x111_0001_1000", inst_slti},   // SLTI
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x011_0xxx_1000", inst_sltiu},  // SLTIU
-    {"xxxx_xxxx_xxxx_xxxx_xxxx_x110_0xxx_1000", inst_li},     // LI
+    {"xxxx_xxxx_xxxx_xxxx_xxxx_x110_0111_1000", inst_li},     // LI
 
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x010_0001_0100", inst_beq},   // BEQ
     {"xxxx_xxxx_xxxx_xxxx_xxxx_x010_0000_0100", inst_bne},   // BNE
